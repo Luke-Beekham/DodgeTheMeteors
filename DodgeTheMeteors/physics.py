@@ -6,8 +6,9 @@ pygame.init()
 
 win =  pygame.display.set_mode((1300, 650))
 
-
 run = True
+
+scaleFactor = 1 
 
 # Get the path of the current file
 current_file_path = __file__
@@ -16,17 +17,88 @@ current_file_path = __file__
 current_dir = os.path.dirname(current_file_path)
 print(current_dir)
 
-ImagesFolder = current_dir + "/Images/"
+ImagesFolder = current_dir + "/Images/1300X650/"
 SoundsFolder = current_dir + "/SoundEffects/"
 
+imageDict = dict()
+
+def loadImages(ImagesFolder):
+    global imageDict
+    AnimationFolder = ImagesFolder + "/StickBoiAnimation/"
+    GameOverScreen = pygame.image.load(ImagesFolder + "BackGroundGameOver.png").convert()
+    MainMenuScreen = pygame.image.load(ImagesFolder + "BackGround Menu.png").convert()
+    GameBackgroundScreen = pygame.image.load(ImagesFolder + "Background.png").convert()
+    SettingScreen = pygame.image.load(ImagesFolder + "BackGround Settings.png").convert()
+    Meteor = pygame.image.load(ImagesFolder + "Meteor.png").convert_alpha()
+    ObjectWarning = pygame.image.load(ImagesFolder + "ObjectWarning.png").convert_alpha()
+    player_image = pygame.image.load(ImagesFolder + "StickBoi.png").convert_alpha()
+    playerLeftRunImage1 = pygame.image.load(AnimationFolder + "StickBoiLeftRun1.png").convert_alpha()
+    playerLeftRunImage2 = pygame.image.load(AnimationFolder + "StickBoiLeftRun2.png").convert_alpha()
+    playerLeftRunImage3 = pygame.image.load(AnimationFolder + "StickBoiLeftRun3.png").convert_alpha()
+    playerLeftRunImage4 = pygame.image.load(AnimationFolder + "StickBoiLeftRun4.png").convert_alpha()
+    playerRightRunImage1 = pygame.image.load(AnimationFolder + "StickBoiRightRun1.png").convert_alpha()
+    playerRightRunImage2 = pygame.image.load(AnimationFolder + "StickBoiRightRun2.png").convert_alpha()
+    playerRightRunImage3 = pygame.image.load(AnimationFolder + "StickBoiRightRun3.png").convert_alpha()
+    playerRightRunImage4 = pygame.image.load(AnimationFolder + "StickBoiRightRun4.png").convert_alpha()
+    playerDedImage = pygame.image.load(AnimationFolder + "DedStickBoi.png").convert_alpha()
+    redBullImage = pygame.image.load(ImagesFolder + "RedBull.png").convert_alpha()
+    medKitImage = pygame.image.load(ImagesFolder + "MedKit.png").convert_alpha()
+    shieldImage = pygame.image.load(ImagesFolder + "Shield.png").convert_alpha()
+    TutoralScreen = pygame.image.load(ImagesFolder + "BackGroundTutoral.png").convert_alpha()
+    TutoralScreen1 = pygame.image.load(ImagesFolder + "BackGroundTutoral1.png").convert_alpha()
+    TutoralScreen2 = pygame.image.load(ImagesFolder + "BackGroundTutoral2.png").convert_alpha()
+    TutoralScreen3 = pygame.image.load(ImagesFolder + "BackGroundTutoral3.png").convert_alpha()
+    TutoralScreen4 = pygame.image.load(ImagesFolder + "BackGroundTutoral4.png").convert_alpha()
+    TutoralScreen5 = pygame.image.load(ImagesFolder + "BackGroundTutoral5.png").convert_alpha()
+    TutoralScreen6 = pygame.image.load(ImagesFolder + "BackGroundTutoral6.png").convert_alpha()
+    CutScene1 = pygame.image.load(ImagesFolder + "CutScene1.png").convert_alpha()
+    CutScene2 = pygame.image.load(ImagesFolder + "CutScene2.png").convert_alpha()
+    CutScene3 = pygame.image.load(ImagesFolder + "CutScene3.png").convert_alpha()
+    CutScene4 = pygame.image.load(ImagesFolder + "CutScene4.png").convert_alpha()
+    CutScene5 = pygame.image.load(ImagesFolder + "CutScene5.png").convert_alpha()
 
 
-GameOverScreen = pygame.image.load(ImagesFolder + "BackGroundGameOver.png").convert()
-MainMenuScreen = pygame.image.load(ImagesFolder + "BackGroundStart.png").convert()
-GameBackgroundScreen = pygame.image.load(ImagesFolder + "Background.png").convert()
+
+
+
+    imageDict = {
+        "GameOverScreen" : GameOverScreen,
+        "MainMenuScreen" : MainMenuScreen,
+        "GameBackgroundScreen" : GameBackgroundScreen,
+        "SettingScreen" : SettingScreen,
+        "Meteor": Meteor,
+        "ObjectWarning": ObjectWarning,
+        "player_image": player_image,
+        "playerLeftRunImage1": playerLeftRunImage1,
+        "playerLeftRunImage2": playerLeftRunImage2,
+        "playerLeftRunImage3": playerLeftRunImage3,
+        "playerLeftRunImage4": playerLeftRunImage4,
+        "playerRightRunImage1": playerRightRunImage1,
+        "playerRightRunImage2": playerRightRunImage2,
+        "playerRightRunImage3": playerRightRunImage3,
+        "playerRightRunImage4": playerRightRunImage4,
+        "playerDedImage": playerDedImage,
+        "redBullImage": redBullImage,
+        "medKitImage": medKitImage,
+        "shieldImage": shieldImage,
+        "TutoralScreen" : TutoralScreen,
+        "TutoralScreen1" : TutoralScreen1, 
+        "TutoralScreen2" : TutoralScreen2,
+        "TutoralScreen3" : TutoralScreen3,
+        "TutoralScreen4" : TutoralScreen4,
+        "TutoralScreen5" : TutoralScreen5,
+        "TutoralScreen6" : TutoralScreen6,
+        "CutScene1" : CutScene1,
+        "CutScene2" : CutScene2,
+        "CutScene3" : CutScene3,
+        "CutScene4" : CutScene4,
+        "CutScene5" : CutScene5
+    }
+
+
+loadImages(ImagesFolder)
 
 pygame.display.set_caption("Dodge The Meteors")
-
 
 start = False
 
@@ -76,7 +148,6 @@ class Sound:
             self.played = False
                                
                  
-  
 
 MainMenuMusic = Music(SoundsFolder + "MainMenu.wav", 20000,1)
 GameTrackMusic = Music(SoundsFolder + "GameTrack.wav", 60000,0.5)
@@ -84,8 +155,8 @@ GameOverMusic = Music(SoundsFolder + "GameOver.wav", 10000,1)
 
 class Text:
     def __init__(self, x, y, text, font, color):
-        self.x = x
-        self.y = y
+        self.x = x * scaleFactor
+        self.y = y * scaleFactor
         self.text = text
         self.font = font
         self.color = color
@@ -94,7 +165,7 @@ class Text:
         self.textRect.center = (x, y)
     
     def draw(self, win):
-        if start == False: return
+        if start == False and not(isTutoral): return
         win.blit(self.textSurface, self.textRect)
     
     def updateText(self,newText):
@@ -103,38 +174,40 @@ class Text:
         self.textRect = self.textSurface.get_rect()
         self.textRect.center = (self.x, self.y)
         
+def MakeTexts(ScaleFactor):
+    global velocityText
+    global livesText
+    global timeLivedText
 
+    size = int(16*ScaleFactor)
 
-velocityFont = pygame.font.Font('freesansbold.ttf', 16)
+    velocityFont = pygame.font.Font('freesansbold.ttf', size)
 
-velocityText = Text(100, 50, 'Velocity: 0', velocityFont, (0,255,0))
+    velocityText = Text(100, 50, 'Velocity: 0', velocityFont, (0,255,0))
 
-livesFont = pygame.font.Font('freesansbold.ttf',16)
+    livesFont = pygame.font.Font('freesansbold.ttf',size)
 
-livesText = Text(100,100,'Lives: 5',livesFont,(255,0,0))
+    livesText = Text(100,100,'Lives: 5',livesFont,(255,0,0))
 
-timeLivedFont = pygame.font.Font('freesansbold.ttf',16)
+    timeLivedFont = pygame.font.Font('freesansbold.ttf',size)
 
-timeLivedText = Text(100,150,'Time Lived: 0',timeLivedFont,(3, 173, 252))
+    timeLivedText = Text(100,150,'Time Lived: 0',timeLivedFont,(3, 173, 252))
 
-
-
+MakeTexts(1)
 
 class Object:
     MeteorCrashSound = Sound(SoundsFolder +"MeteorCrash.wav",1000,0.5)
-    Meteor = pygame.image.load(ImagesFolder+"Meteor.png").convert_alpha()
-    ObjectWarning = pygame.image.load(ImagesFolder+"ObjectWarning.png").convert_alpha()
     ObjectList = []
     secondsToMakeNewObject = 10
     currentTick = 0
     def __init__(self, x, y, width, height, color):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+        self.x = x * scaleFactor
+        self.y = y * scaleFactor
+        self.width = width * scaleFactor
+        self.height = height * scaleFactor
         self.color = color
         self.rect = (x, y, width, height)
-        self.surface = Object.Meteor
+        self.surface = imageDict["Meteor"]
         self.velocity = 0
         self.ticksToMove = 30 + Object.currentTick
         self.health = 5
@@ -148,10 +221,10 @@ class Object:
     def draw(self, win):
         if start == False: return
         if self.warning == 1:
-            win.blit(Object.ObjectWarning, (self.x, 100))
+            win.blit(imageDict["ObjectWarning"], (self.x, 100))
         else:
             self.rect = (self.x, self.y, self.width, self.height)
-            win.blit(self.surface, self.rect)
+            win.blit(imageDict["Meteor"], self.rect)
         
 
     def isCloseToPlayer(self, plr):
@@ -208,9 +281,6 @@ class Object:
             obj.removeItself()
     
 
-
-
-
 class Player:
     dashSound = Sound(SoundsFolder + "DashSound.wav",1000,0.5)
     dashBackgroundSurface = pygame.Surface((120, 50))
@@ -220,32 +290,11 @@ class Player:
     dashRectSurface.fill((0, 0, 200))
     
     playerOwSound = Sound(SoundsFolder + "Ow.wav",1000,0.4)
-
-    player_image = pygame.image.load(ImagesFolder+"StickBoi.png").convert_alpha()
-
-    Folder = ImagesFolder + "StickBoiAnimation/"
     
-    #Folder = R"C:\Users\4236696\Desktop\Cool Code\Practice\python\pygame\DodgeTheMeteors\Images\StickBoiAnimation/"
-
-    playerLeftRunImage1 = pygame.image.load(Folder +"StickBoiLeftRun1.png").convert_alpha()
-    playerLeftRunImage2 = pygame.image.load(Folder +"StickBoiLeftRun2.png").convert_alpha()
-    playerLeftRunImage3 = pygame.image.load(Folder +"StickBoiLeftRun3.png").convert_alpha()
-    playerLeftRunImage4 = pygame.image.load(Folder +"StickBoiLeftRun4.png").convert_alpha()
-
-    playerRightRunImage1 = pygame.image.load(Folder +"StickBoiRightRun1.png").convert_alpha()
-    playerRightRunImage2 = pygame.image.load(Folder +"StickBoiRightRun2.png").convert_alpha()
-    playerRightRunImage3 = pygame.image.load(Folder +"StickBoiRightRun3.png").convert_alpha()
-    playerRightRunImage4 = pygame.image.load(Folder +"StickBoiRightRun4.png").convert_alpha()
-    playerRightRunImages = [playerRightRunImage1, playerRightRunImage2, playerRightRunImage3, playerRightRunImage4]
-
-
-    playerLeftRunImages = [playerLeftRunImage1, playerLeftRunImage2, playerLeftRunImage3, playerLeftRunImage4]
-    
-    playerDedImage = pygame.image.load(Folder +"DedStickBoi.png").convert_alpha()
-    
+    #Folder = R"C:\Users\4236696\Desktop\Cool Code\Practice\python\pygame\DodgeTheMeteors\Images\StickBoiAnimation/"    
     def __init__(self, x, y, width, height, color):
-        self.x = x
-        self.y = y
+        self.x = x * scaleFactor
+        self.y = y * scaleFactor
         self.width = width
         self.height = height
         self.color = color
@@ -264,18 +313,18 @@ class Player:
         
 
     def draw(self, win):
-        if start == False: return
+        if start == False and not isTutoral: return
         Frame = None
         if self.lives <= 0:
-            Frame = Player.playerDedImage
+            Frame = imageDict["playerDedImage"]
         elif self.velocity > 1:
             if self.velocityDirection == "left":
-                Frame = Player.playerLeftRunImages[self.walkCount]
+                Frame = imageDict[f"playerLeftRunImage{self.walkCount+1}"]
 
             else:
-                Frame = Player.playerRightRunImages[self.walkCount]
+                Frame = imageDict[f"playerRightRunImage{self.walkCount+1}"]
         else:
-            Frame = Player.player_image
+            Frame = imageDict["player_image"]
             
         win.blit(Frame, (self.x, self.y))
         
@@ -334,7 +383,7 @@ class Player:
     def dash(self,currentTick):
         if currentTick >= self.ticksToDash:
             self.velocity = 20
-            #self.ticksToDash += currentTick - self.ticksToDash
+            self.ticksToDash += currentTick + 7000
             self.savedCurrentTick = currentTick
             Player.dashSound.play()
         # self.maxVelocity = 20
@@ -345,7 +394,7 @@ class Player:
         #print(f"dashRectWidth {dashRectWidth} CurrentTick {currentTick} plr.savedCurrentTick {plr.savedCurrentTick} plr.ticksToDash {plr.ticksToDash} ")
         if dashRectWidth > 100:
             dashRectWidth = 100
-        cls.dashRectSurface = pygame.Surface((dashRectWidth, 30))
+        cls.dashRectSurface = pygame.Surface((dashRectWidth*scaleFactor, 30*scaleFactor))
         if dashRectWidth == 100:
             cls.dashRectSurface.fill((0,255,0))
         else:
@@ -353,22 +402,18 @@ class Player:
 
     @classmethod
     def dashRectDraw(cls):
-        if start == True:   
-            win.blit(Player.dashBackgroundSurface, (50,200))
-            win.blit(Player.dashRectSurface, (60,210))
+        if start == True or isTutoral:   
+            win.blit(Player.dashBackgroundSurface, (50*scaleFactor,200*scaleFactor))
+            win.blit(Player.dashRectSurface, (60*scaleFactor,210*scaleFactor))
 
-class PowerUps():
+class PowerUps:
 
     PowerUpSound = Sound(SoundsFolder + "PowerUpSound.wav",2000,0.4)  
 
-    redBullImage = pygame.image.load(ImagesFolder + "RedBull.png").convert_alpha()
-    medKitImage = pygame.image.load(ImagesFolder + "MedKit.png").convert_alpha()
-    shieldImage = pygame.image.load(ImagesFolder + "Shield.png").convert_alpha()
-
     PowerUpsList = []
     def __init__(self,x=int,y=int,width=int, height=int,type=str):
-        self.x = x
-        self.y = y
+        self.x = x * scaleFactor
+        self.y = y * scaleFactor
         self.width = width
         self.height = height
         self.type = type
@@ -377,13 +422,21 @@ class PowerUps():
         self.activated = False
         match self.type:
             case "M":
-                self.surface = PowerUps.medKitImage
+                self.surface = imageDict["medKitImage"]
             case "R":
-                self.surface = PowerUps.redBullImage
+                self.surface = imageDict["redBullImage"]
             case "S":
-                self.surface = PowerUps.shieldImage
+                self.surface = imageDict["shieldImage"]
         PowerUps.PowerUpsList.append(self)
-            
+    
+
+    @classmethod
+    def makeSpecificPowerUp(cls,type):
+        x = random.randint(0,1300)
+        y = 550
+        width = 25
+        height = 25
+        PowerUp = PowerUps(x,y,width,height,type)
     @classmethod
     def makePowerUp(cls):
         x = random.randint(0,1300)
@@ -435,7 +488,7 @@ class PowerUps():
                     plr.hasShieldPowerUp = True
     
     def draw(self):
-        if start == False or self.activated: return
+        if (start == False and not(isTutoral)) or self.activated: return
         win.blit(self.surface,self.rect)
     
     @classmethod
@@ -454,32 +507,134 @@ plr = Player(50, 550, 50, 50, (0, 0, 0))
 clock = pygame.time.Clock()
 initalTick = None
 lastCurrentTick = 0
-while run:
-    
+old_width = 1300
+old_height = 600
+
+orgImageDict = imageDict.copy()
+
+setting = False
+
+isTutoral = False
+
+isTutoralTickOnce = False
+
+tutoralPowerUpRedBull = True
+tutoralPowerUpMedKit = True
+tutoralPowerUpShield = True
+
+OnceWipe = True
+
+isStory = False
+
+while run:   
     currentTick = pygame.time.get_ticks()
     lastCurrentTick = currentTick
     if start:
         currentTick -= initalTick
         Object.currentTick = currentTick
+        if OnceWipe:
+            plr.ticksToMove = currentTick
+            plr.ticksToDash = currentTick
+            plr.savedCurrentTick = currentTick
+            OnceWipe = False
+    elif isTutoral and not(isTutoralTickOnce):
+        currentTick -= initalTick
+        initalTick = currentTick
+        isTutoralTickOnce = True
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        if event.type == pygame.MOUSEBUTTONDOWN and start == False and not(isTutoral) and not(isStory):
+            mouse_pos = pygame.mouse.get_pos()
+            print(mouse_pos)
+            x = mouse_pos[0]
+            y = mouse_pos[1]
+            if not setting:
+                if x >= 978 * scaleFactor and y >=263 * scaleFactor and y <= 341 * scaleFactor:
+                    start = True
+                    MainMenuMusic.stop()
+                    initalTick = pygame.time.get_ticks()
+                    Object.currentTick = currentTick - initalTick
+                elif x >= 9 * scaleFactor and x <=316 * scaleFactor and y >= 371 * scaleFactor and y <= 437 * scaleFactor:
+                    setting = True
+                elif x >= 931 * scaleFactor and x <=1290 * scaleFactor and y >=407 * scaleFactor and y <=471 * scaleFactor:
+                    initalTick = pygame.time.get_ticks()
+                    isTutoral = True
+                elif x >= 935 * scaleFactor and x <= 1290 * scaleFactor and y >= 545 * scaleFactor and y <=605 * scaleFactor:
+                    isStory = True
+            elif setting:
+                if x >= 120 * scaleFactor and x <=556 * scaleFactor and y >=260 * scaleFactor and y <=315 * scaleFactor:
+                    win =  pygame.display.set_mode((1300, 650),pygame.RESIZABLE)
+                    ImagesFolder = current_dir + "/Images/1300X650/"
+                    loadImages(ImagesFolder)
+                    scaleFactor = 1
+                    plr.y *= scaleFactor
+                    MakeTexts(scaleFactor)
+                    livesText.updateText(f"Lives: {plr.lives}")
+
+                    Player.dashBackgroundSurface = pygame.Surface((120*scaleFactor, 50*scaleFactor))
+                    Player.dashBackgroundSurface.fill((0, 0, 0))
+
+                    Player.dashRectSurface = pygame.Surface((100*scaleFactor, 30*scaleFactor))
+                    Player.dashRectSurface.fill((0, 0, 200))
+                elif x >=117 * scaleFactor and x <=569 * scaleFactor and y >=358 * scaleFactor and y <=412 * scaleFactor:
+                     pass
+                     #win =  pygame.display.set_mode((1920, 960),pygame.RESIZABLE)
+                elif x >= 116 * scaleFactor and x <=568 * scaleFactor and y >=451 * scaleFactor and y <=499 * scaleFactor:
+                    win =  pygame.display.set_mode((650, 325))
+                    ImagesFolder = current_dir + "/Images/650X325/"
+                    loadImages(ImagesFolder)
+                    scaleFactor = 0.5
+                    plr.y = 550
+                    MakeTexts(scaleFactor)
+                    livesText.updateText(f"Lives: {plr.lives}")
+
+                    Player.dashBackgroundSurface = pygame.Surface((120*scaleFactor, 50*scaleFactor))
+                    Player.dashBackgroundSurface.fill((0, 0, 0))
+
+                    Player.dashRectSurface = pygame.Surface((100*scaleFactor, 30*scaleFactor))
+                    Player.dashRectSurface.fill((0, 0, 200))
+
+                    
+                    
+
+                elif x >= 739 * scaleFactor and x <= 1263 * scaleFactor and y >=512 * scaleFactor and y <= 591 * scaleFactor:
+                    setting = False
+                
+
+        # if event.type == pygame.VIDEORESIZE:
+            
+        #     new_width = event.dict['size'][0]
+
+        #     new_height = event.dict['size'][1]
+        #     ScaleFactor_width = new_width / 1300
+        #     ScaleFactor_height = new_height / 650
+        #     old_width = new_width
+        #     old_height = new_height
+            
+
+        #     newOrgImageDict = orgImageDict.copy()
+        #     for key in newOrgImageDict:
+        #         original_image = newOrgImageDict[key]
+        #         current_image = imageDict[key]
+                
+        #         newImageWidth = int(original_image.get_width() * ScaleFactor_width)
+        #         newImageHeight = int(original_image.get_height() * ScaleFactor_height)
+        #         scaled_image = pygame.transform.scale(newOrgImageDict[key], (newImageWidth, newImageHeight))
+        #         imageDict[key] = scaled_image
+
+
+        #     win =  pygame.display.set_mode((new_width, new_height),pygame.RESIZABLE)
+        #     print(f"ImageDict Width: {imageDict['GameBackgroundScreen'].get_width()} OriginalImageWidth: {orgImageDict['GameBackgroundScreen'].get_width()} ScaleFactor_width: {ScaleFactor_width}")
+
         
 
     keys = pygame.key.get_pressed()
-    if start == False:
-        MainMenuMusic.play(currentTick)
-
-        if any(keys):
-            start = True
-            MainMenuMusic.stop()
-            initalTick = pygame.time.get_ticks()
-
-            Object.currentTick = currentTick - initalTick
-            
-    else:
-        
+    if start == False and not(isTutoral) and not(isStory):
+        MainMenuMusic.play(currentTick)  
+    if isTutoral or start == True:
         if keys[pygame.K_f]:
             Object.StopFalling()
         if keys[pygame.K_l]:
@@ -502,7 +657,6 @@ while run:
             Object.secondsToMakeNewObject = 10
 
 
-
         if currentTick >= plr.ticksToMove:
             plr.ticksToMove += 35
             if keys[pygame.K_LEFT]:
@@ -512,18 +666,60 @@ while run:
             else:
                 plr.decreaseVelocity()
 
+
+
+
     if start == False:
-        win.blit(MainMenuScreen, (0,0))
+        if setting:
+            win.blit(imageDict["SettingScreen"],(0,0))
+        elif isTutoral:
+            i = int(currentTick//10000)
+            match i:
+                case 6:
+                    isTutoral = False
+                case 2:
+                    if tutoralPowerUpRedBull:
+                        PowerUps.makeSpecificPowerUp("R")
+                        tutoralPowerUpRedBull = False
+                case 3:
+                    if tutoralPowerUpMedKit:
+                        PowerUps.makeSpecificPowerUp("M")
+                        tutoralPowerUpMedKit = False
+                case 4:
+                    if tutoralPowerUpShield:
+                        PowerUps.makeSpecificPowerUp("S")
+                        tutoralPowerUpShield = False
+            if not(i >= 6):
+                win.blit(imageDict[f"TutoralScreen{i+1}"],(0,0))
+
+            PowerUps.maybePowerUpsActvate(plr,currentTick)
+        elif isStory:
+            if currentTick >= 50000:
+                isStory = False
+            elif currentTick >= 40000:
+                print("YEE")
+                win.blit(imageDict["CutScene5"],(0,0))
+            elif currentTick >= 30000:
+                print("NOO")
+                win.blit(imageDict["CutScene4"],(0,0))
+            elif currentTick >= 20000:
+                win.blit(imageDict["CutScene3"],(0,0))
+            elif currentTick >= 10000:
+                win.blit(imageDict["CutScene2"],(0,0))
+            else:
+                win.blit(imageDict["CutScene1"],(0,0))
+        else:
+            win.blit(imageDict["MainMenuScreen"], (0,0))
     elif plr.lives > 0:
         GameTrackMusic.play(currentTick)
-        win.blit(GameBackgroundScreen, (0,0))
+        win.blit(imageDict["GameBackgroundScreen"], (0,0))
         PowerUps.maybeMakePowerUp()
-        PowerUps.maybePowerUpsActvate(plr,currentTick)
+        
         timeLivedText.updateText(f"Time Lived: {currentTick//1000}")
             
         
     else:
-        win.blit(GameOverScreen, (0,0))                                                             
+        win.blit(imageDict["GameOverScreen"], (0,0))                                                             
         GameTrackMusic.stop()
         GameOverMusic.play(currentTick)
         Object.StopFalling()
@@ -542,6 +738,7 @@ while run:
     Player.dashRectDraw()
 
     PowerUps.drawPowerUps()
+    PowerUps.maybePowerUpsActvate(plr,currentTick)
 
     if currentTick//1000 >= Object.secondsToMakeNewObject and start:
         Object.secondsToMakeNewObject += 10
@@ -549,7 +746,7 @@ while run:
     
     Object.fallObjects(currentTick)
     Object.drawObjects(win)
-
+    
     action,obj = Object.checkCollision(plr) 
     if action:
         plr.removeLife(1)

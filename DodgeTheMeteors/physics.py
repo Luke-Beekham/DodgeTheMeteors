@@ -388,17 +388,23 @@ async def main():
         def dash(self,currentTick):
             if currentTick >= self.ticksToDash:
                 self.velocity = 20
-                self.ticksToDash += currentTick + 7000
+                self.ticksToDash = currentTick + 7000
                 self.savedCurrentTick = currentTick
                 Player.dashSound.play()
             # self.maxVelocity = 20
         
         @classmethod
         def dashRectUpdate(cls,currentTick):
-            dashRectWidth = ((currentTick -plr.savedCurrentTick)/( plr.ticksToDash)) * 100
-            #print(f"dashRectWidth {dashRectWidth} CurrentTick {currentTick} plr.savedCurrentTick {plr.savedCurrentTick} plr.ticksToDash {plr.ticksToDash} ")
+            try:
+
+                dashRectWidth = ((currentTick-plr.savedCurrentTick)/( plr.ticksToDash-plr.savedCurrentTick)) * 100
+            except ZeroDivisionError:
+                dashRectWidth = 100
             if dashRectWidth > 100:
                 dashRectWidth = 100
+            else:
+                pass
+                #print(f"dashRectWidth {dashRectWidth} CurrentTick {currentTick} plr.savedCurrentTick {plr.savedCurrentTick} plr.ticksToDash {plr.ticksToDash} ")
             cls.dashRectSurface = pygame.Surface((dashRectWidth*scaleFactor, 30*scaleFactor))
             if dashRectWidth == 100:
                 cls.dashRectSurface.fill((0,255,0))
@@ -531,6 +537,8 @@ async def main():
 
     isStory = False
 
+    storyTick = 0
+
     while run:   
         currentTick = pygame.time.get_ticks()
         lastCurrentTick = currentTick
@@ -569,13 +577,15 @@ async def main():
                         isTutoral = True
                     elif x >= 935 * scaleFactor and x <= 1290 * scaleFactor and y >= 545 * scaleFactor and y <=605 * scaleFactor:
                         isStory = True
+                        storyTick = currentTick
+
                 elif setting:
                     if x >= 120 * scaleFactor and x <=556 * scaleFactor and y >=260 * scaleFactor and y <=315 * scaleFactor:
                         win =  pygame.display.set_mode((1300, 650),pygame.RESIZABLE)
                         ImagesFolder = current_dir + "/Images/1300X650/"
                         loadImages(ImagesFolder)
                         scaleFactor = 1
-                        plr.y *= scaleFactor
+                        plr.y = 550
                         MakeTexts(scaleFactor)
                         livesText.updateText(f"Lives: {plr.lives}")
 
@@ -592,7 +602,7 @@ async def main():
                         ImagesFolder = current_dir + "/Images/650X325/"
                         loadImages(ImagesFolder)
                         scaleFactor = 0.5
-                        plr.y = 550
+                        plr.y *= scaleFactor
                         MakeTexts(scaleFactor)
                         livesText.updateText(f"Lives: {plr.lives}")
 
@@ -639,6 +649,8 @@ async def main():
         keys = pygame.key.get_pressed()
         if start == False and not(isTutoral) and not(isStory):
             MainMenuMusic.play(currentTick)  
+        elif MainMenuMusic.played:
+            MainMenuMusic.stop()
         if isTutoral or start == True:
             if keys[pygame.K_f]:
                 Object.StopFalling()
@@ -699,17 +711,15 @@ async def main():
 
                 PowerUps.maybePowerUpsActvate(plr,currentTick)
             elif isStory:
-                if currentTick >= 50000:
+                if currentTick  -storyTick >= 50000:
                     isStory = False
-                elif currentTick >= 40000:
-                    print("YEE")
+                elif currentTick -storyTick >= 40000 :
                     win.blit(imageDict["CutScene5"],(0,0))
-                elif currentTick >= 30000:
-                    print("NOO")
+                elif currentTick -storyTick >= 30000 :
                     win.blit(imageDict["CutScene4"],(0,0))
-                elif currentTick >= 20000:
+                elif currentTick -storyTick >= 20000 :
                     win.blit(imageDict["CutScene3"],(0,0))
-                elif currentTick >= 10000:
+                elif currentTick -storyTick >= 10000 :
                     win.blit(imageDict["CutScene2"],(0,0))
                 else:
                     win.blit(imageDict["CutScene1"],(0,0))

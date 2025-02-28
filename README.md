@@ -12,7 +12,7 @@ This Game was made for my English project in my Senior year at school.
 ## How to run the project
 I will make a **itch.io** webpage to run the game
 
-Others wise you can just download this project and run the main.py file INSIDE of the game folder. Use your preferred coder editor, and you may have to install python, pygame & pygbag if u use that option.
+Others wise you can just download this project and run the main.py file INSIDE of the game folder. Use your preferred code editor, and you may have to install python, pygame & pygbag if u use that option.
 
 ## Credits
 1. All of the coding/art/music was made by Me: *Luke Beekham*

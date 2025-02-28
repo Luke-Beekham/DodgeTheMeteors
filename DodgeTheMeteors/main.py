@@ -25,6 +25,10 @@ async def main():
     ImagesFolder = current_dir + "/Images/1300X650/"
     SoundsFolder = current_dir + "/SoundEffects/"
 
+    print(os.listdir(current_dir))
+    print("FUUUUUU")
+    print(current_file_path)
+
 
     
     def loadImages(ImagesFolder):
@@ -32,7 +36,7 @@ async def main():
         AnimationFolder = ImagesFolder + "/StickBoiAnimation/"
         GameOverScreen = pygame.image.load(ImagesFolder + "BackGroundGameOver.png").convert()
         MainMenuScreen = pygame.image.load(ImagesFolder + "BackGround Menu.png").convert()
-        GameBackgroundScreen = pygame.image.load(ImagesFolder + "Background.png").convert()
+        GameBackgroundScreen = pygame.image.load(ImagesFolder + "BackGround.png").convert()
         SettingScreen = pygame.image.load(ImagesFolder + "BackGround Settings.png").convert()
         Meteor = pygame.image.load(ImagesFolder + "Meteor.png").convert_alpha()
         ObjectWarning = pygame.image.load(ImagesFolder + "ObjectWarning.png").convert_alpha()
@@ -46,7 +50,7 @@ async def main():
         playerRightRunImage3 = pygame.image.load(AnimationFolder + "StickBoiRightRun3.png").convert_alpha()
         playerRightRunImage4 = pygame.image.load(AnimationFolder + "StickBoiRightRun4.png").convert_alpha()
         playerDedImage = pygame.image.load(AnimationFolder + "DedStickBoi.png").convert_alpha()
-        redBullImage = pygame.image.load(ImagesFolder + "RedBull.png").convert_alpha()
+        redBullImage = pygame.image.load(ImagesFolder + "Redbull.png").convert_alpha()
         medKitImage = pygame.image.load(ImagesFolder + "MedKit.png").convert_alpha()
         shieldImage = pygame.image.load(ImagesFolder + "Shield.png").convert_alpha()
         TutoralScreen = pygame.image.load(ImagesFolder + "BackGroundTutoral.png").convert_alpha()

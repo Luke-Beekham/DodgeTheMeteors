@@ -10,7 +10,7 @@ It is a 2d game where you are trying to dodge meteors falling from the sky. Ther
 This Game was made for my English project in my Senior year at school. 
 
 ## How to run the project
-I will make a **itch.io** webpage to run the game
+I made a [Itch.io](https://luke-beekham.itch.io/dodge-the-meteors) to play the game!!!!!
 
 Others wise you can just download this project and run the main.py file INSIDE of the game folder. Use your preferred code editor, and you may have to install python, pygame & pygbag if u use that option.
 
